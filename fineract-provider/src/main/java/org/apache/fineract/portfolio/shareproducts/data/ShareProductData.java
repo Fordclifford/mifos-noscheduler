@@ -40,13 +40,13 @@ public class ShareProductData implements ProductData {
     private final String description;
     private final String externalId;
     private final CurrencyData currency;
-    private final Long totalShares;
-    private final Long totalSharesIssued;
+    private final Double totalShares;
+    private final Double totalSharesIssued;
     private final BigDecimal unitPrice;
     private final BigDecimal shareCapital;
-    private final Long minimumShares;
-    private final Long nominalShares;
-    private final Long maximumShares;
+    private final Double minimumShares;
+    private final Double nominalShares;
+    private final Double maximumShares;
     private final Collection<ShareProductMarketPriceData> marketPrice;
     private final Collection<ChargeData> charges;
     private final Boolean allowDividendCalculationForInactiveClients;
@@ -70,8 +70,8 @@ public class ShareProductData implements ProductData {
     private final Map<String, List<GLAccountData>> accountingMappingOptions;
 
     private ShareProductData(final Long id, final String name, final String shortName, final String description, final String externalId,
-            final CurrencyData currency, final Long totalShares, final Long totalSharesIssued, final BigDecimal unitPrice,
-            final BigDecimal shareCapital, final Long minimumShares, final Long nominaltShares, final Long maximumShares,
+            final CurrencyData currency, final Double totalShares, final Double totalSharesIssued, final BigDecimal unitPrice,
+            final BigDecimal shareCapital, final Double minimumShares, final Double nominaltShares, final Double maximumShares,
             Collection<ShareProductMarketPriceData> marketPrice, final Collection<ChargeData> charges,
             final Boolean allowDividendCalculationForInactiveClients, final Integer lockinPeriod, final EnumOptionData lockPeriodEnum,
             final Integer minimumActivePeriod, final EnumOptionData minimumActivePeriodForDividendsTypeEnum, EnumOptionData accountingRule,
@@ -111,9 +111,9 @@ public class ShareProductData implements ProductData {
     }
 
     public static ShareProductData data(final Long id, final String name, final String shortName, final String description,
-            final String externalId, final CurrencyData currency, final Long totalShares, final Long totalSharesIssued,
-            final BigDecimal unitPrice, final BigDecimal shareCapital, final Long minimumShares, final Long nominaltShares,
-            final Long maximumShares, Collection<ShareProductMarketPriceData> marketPrice, final Collection<ChargeData> charges,
+            final String externalId, final CurrencyData currency, final Double totalShares, final Double totalSharesIssued,
+            final BigDecimal unitPrice, final BigDecimal shareCapital, final Double minimumShares, final Double nominaltShares,
+            final Double maximumShares, Collection<ShareProductMarketPriceData> marketPrice, final Collection<ChargeData> charges,
 
             final Boolean allowDividendCalculationForInactiveClients, final Integer lockinPeriod, final EnumOptionData lockPeriodTypeEnum,
             final Integer minimumActivePeriod, final EnumOptionData minimumActivePeriodForDividendsEnum, EnumOptionData accountingRule) {
@@ -202,7 +202,7 @@ public class ShareProductData implements ProductData {
                 data.minimumActivePeriodFrequencyTypeOptions, data.lockinPeriodFrequencyTypeOptions, data.accountingMappingOptions);
     }
 
-    private ShareProductData(final Long id, final String name, final String shortName, final Long totalShares) {
+    private ShareProductData(final Long id, final String name, final String shortName, final Double totalShares) {
         this.id = id;
         this.name = name;
         this.shortName = shortName;
@@ -234,13 +234,13 @@ public class ShareProductData implements ProductData {
         this.accountingMappingOptions = null;
     }
 
-    public static ShareProductData generic(final Long id, final String name, final String shortName, final Long totalShares) {
+    public static ShareProductData generic(final Long id, final String name, final String shortName, final Double totalShares) {
         return new ShareProductData(id, name, shortName, totalShares);
     }
 
     public static ShareProductData lookup(final Long id, final String name) {
         final String shortName = null;
-        final Long totalShares = null;
+        final Double totalShares = null;
         return new ShareProductData(id, name, shortName, totalShares);
 
     }
@@ -269,11 +269,11 @@ public class ShareProductData implements ProductData {
         return this.currency;
     }
 
-    public Long getTotalShares() {
+    public Double getTotalShares() {
         return this.totalShares;
     }
 
-    public Long getTotalSharesIssued() {
+    public Double getTotalSharesIssued() {
         return this.totalSharesIssued;
     }
 
@@ -285,15 +285,15 @@ public class ShareProductData implements ProductData {
         return this.shareCapital;
     }
 
-    public Long getMinimumShares() {
+    public Double getMinimumShares() {
         return this.minimumShares;
     }
 
-    public Long getNominaltShares() {
+    public Double getNominaltShares() {
         return this.nominalShares;
     }
 
-    public Long getMaximumShares() {
+    public Double getMaximumShares() {
         return this.maximumShares;
     }
 

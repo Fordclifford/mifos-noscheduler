@@ -126,10 +126,10 @@ public class ShareProductDataSerializer {
         String externalId = this.fromApiJsonHelper.extractStringNamed(ShareProductApiConstants.externalid_paramname, element);
         // baseDataValidator.reset().parameter(ShareProductApiConstants.externalid_paramname).value(externalId).notBlank();
 
-        Long totalNumberOfShares = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.totalshares_paramname, element);
+        Double totalNumberOfShares = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.totalshares_paramname, element);
         baseDataValidator.reset().parameter(ShareProductApiConstants.totalshares_paramname).value(totalNumberOfShares).notNull()
-                .longGreaterThanZero();
-        final Long sharesIssued = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.totalsharesissued_paramname, element);
+                .doubleGreaterThanZero();
+        final Double sharesIssued = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.totalsharesissued_paramname, element);
         if(sharesIssued != null && totalNumberOfShares != null && sharesIssued > totalNumberOfShares) {
             baseDataValidator.reset().parameter(ShareProductApiConstants.totalsharesissued_paramname).value(sharesIssued)
             .failWithCodeNoParameterAddedToErrorCode("sharesIssued.cannot.be.greater.than.totalNumberOfShares");
@@ -159,18 +159,18 @@ public class ShareProductDataSerializer {
             accountingRuleType = AccountingRuleType.fromInt(accountingRule);
         }
 
-        Long minimumClientShares = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.minimumshares_paramname, element);
-        Long nominalClientShares = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.nominaltshares_paramname, element);
+        Double minimumClientShares = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.minimumshares_paramname, element);
+Double nominalClientShares = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.nominaltshares_paramname, element);
         baseDataValidator.reset().parameter(ShareProductApiConstants.nominaltshares_paramname).value(nominalClientShares).notNull()
-                .longGreaterThanZero();
+                .doubleGreaterThanZero();
         if (minimumClientShares != null && nominalClientShares != null && !minimumClientShares.equals(nominalClientShares)) {
             baseDataValidator.reset().parameter(ShareProductApiConstants.nominaltshares_paramname).value(nominalClientShares)
-                    .longGreaterThanNumber(minimumClientShares);
+                    .doubleGreaterThanNumber(minimumClientShares);
         }
-        Long maximumClientShares = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.maximumshares_paramname, element);
+        Double maximumClientShares = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.maximumshares_paramname, element);
         if (maximumClientShares != null && nominalClientShares != null && !maximumClientShares.equals(nominalClientShares)) {
             baseDataValidator.reset().parameter(ShareProductApiConstants.maximumshares_paramname).value(maximumClientShares)
-                    .longGreaterThanNumber(nominalClientShares);
+                    .doubleGreaterThanNumber(nominalClientShares);
         }
 
         Set<ShareProductMarketPrice> marketPriceSet = asembleShareMarketPrice(element);
@@ -313,16 +313,16 @@ public class ShareProductDataSerializer {
         }
 
         if (this.fromApiJsonHelper.parameterExists(ShareProductApiConstants.totalshares_paramname, element)) {
-            Long totalShares = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.totalshares_paramname, element);
+            Double totalShares = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.totalshares_paramname, element);
             baseDataValidator.reset().parameter(ShareProductApiConstants.totalshares_paramname).value(totalShares).notNull()
-                    .longGreaterThanZero();
+                    .doubleGreaterThanZero();
             if (product.setTotalShares(totalShares)) {
                 actualChanges.put(ShareProductApiConstants.totalshares_paramname, totalShares);
             }
         }
-        Long sharesIssued = null;
+        Double sharesIssued = null;
         if (this.fromApiJsonHelper.parameterExists(ShareProductApiConstants.totalsharesissued_paramname, element)) {
-            sharesIssued = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.totalsharesissued_paramname, element);
+            sharesIssued = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.totalsharesissued_paramname, element);
             if (product.setTotalIssuedShares(sharesIssued)) {
                 actualChanges.put(ShareProductApiConstants.totalsharesissued_paramname, sharesIssued);
             }
@@ -370,27 +370,27 @@ public class ShareProductDataSerializer {
         }
 
         if (this.fromApiJsonHelper.parameterExists(ShareProductApiConstants.minimumshares_paramname, element)) {
-            Long minimumClientShares = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.minimumshares_paramname, element);
+            Double minimumClientShares = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.minimumshares_paramname, element);
             baseDataValidator.reset().parameter(ShareProductApiConstants.minimumshares_paramname).value(minimumClientShares).notNull()
-                    .longGreaterThanZero();
+                    .doubleGreaterThanZero();
             if (product.setMinimumShares(minimumClientShares)) {
                 actualChanges.put(ShareProductApiConstants.minimumshares_paramname, minimumClientShares);
             }
         }
 
         if (this.fromApiJsonHelper.parameterExists(ShareProductApiConstants.nominaltshares_paramname, element)) {
-            Long nominalClientShares = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.nominaltshares_paramname, element);
+            Double nominalClientShares = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.nominaltshares_paramname, element);
             baseDataValidator.reset().parameter(ShareProductApiConstants.nominaltshares_paramname).value(nominalClientShares).notNull()
-                    .longGreaterThanZero();
+                    .doubleGreaterThanZero();
             if (product.setNominalShares(nominalClientShares)) {
                 actualChanges.put(ShareProductApiConstants.nominaltshares_paramname, nominalClientShares);
             }
         }
 
         if (this.fromApiJsonHelper.parameterExists(ShareProductApiConstants.maximumshares_paramname, element)) {
-            Long maximumClientShares = this.fromApiJsonHelper.extractLongNamed(ShareProductApiConstants.maximumshares_paramname, element);
+            Double maximumClientShares = this.fromApiJsonHelper.extractDoubleNamed(ShareProductApiConstants.maximumshares_paramname, element);
             baseDataValidator.reset().parameter(ShareProductApiConstants.maximumshares_paramname).value(maximumClientShares).notNull()
-                    .longGreaterThanZero();
+                    .doubleGreaterThanZero();
             if (product.setMaximumShares(maximumClientShares)) {
                 actualChanges.put(ShareProductApiConstants.maximumshares_paramname, maximumClientShares);
             }

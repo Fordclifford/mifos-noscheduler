@@ -83,6 +83,23 @@ public class JsonParserHelper {
         }
         return longValue;
     }
+    
+    public Double extractDouble(final String parameterName, final JsonElement element, final Set<String> parametersPassedInRequest) {
+        Double longValue = null;
+        if (element.isJsonObject()) {
+            final JsonObject object = element.getAsJsonObject();
+            if (object.has(parameterName) && object.get(parameterName).isJsonPrimitive()) {
+                parametersPassedInRequest.add(parameterName);
+                final JsonPrimitive primitive = object.get(parameterName).getAsJsonPrimitive();
+                final String stringValue = primitive.getAsString();
+                if (StringUtils.isNotBlank(stringValue)) {
+                    longValue = Double.valueOf(stringValue);
+                }
+            }
+        }
+        return longValue;
+    }
+
 
     public String extractStringNamed(final String parameterName, final JsonElement element, final Set<String> parametersPassedInRequest) {
         String stringValue = null;

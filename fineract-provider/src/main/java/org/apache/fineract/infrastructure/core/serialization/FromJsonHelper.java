@@ -165,6 +165,19 @@ public class FromJsonHelper {
     public Long extractLongNamed(final String parameterName, final JsonElement element, final Set<String> parametersPassedInRequest) {
         return this.helperDelegator.extractLongNamed(parameterName, element, parametersPassedInRequest);
     }
+    
+    
+    
+    public Double extractDoubleNamed(final String parameterName, final JsonElement element) {
+        return this.helperDelegator.extractDouble(parameterName, element, new HashSet<String>());
+    }
+
+    public Double extractDoubleNamed(final String parameterName, final JsonElement element, final Set<String> parametersPassedInRequest) {
+        return this.helperDelegator.extractDouble(parameterName, element, parametersPassedInRequest);
+    }
+    
+    
+    
 
     public JsonArray extractJsonArrayNamed(final String parameterName, final JsonElement element) {
         return this.helperDelegator.extractJsonArrayNamed(parameterName, element);

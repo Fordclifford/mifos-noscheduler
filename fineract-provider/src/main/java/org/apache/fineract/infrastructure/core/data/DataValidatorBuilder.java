@@ -514,6 +514,24 @@ public class DataValidatorBuilder {
         }
         return this;
     }
+    
+    public DataValidatorBuilder doubleGreaterThanZero() {
+        if (this.value == null && this.ignoreNullValue) { return this; }
+
+        if (this.value != null) {
+            final Double number = Double.valueOf(this.value.toString());
+            if (number < 1) {
+                final StringBuilder validationErrorCode = new StringBuilder("validation.msg.").append(this.resource).append(".")
+                        .append(this.parameter).append(".not.greater.than.zero");
+                final StringBuilder defaultEnglishMessage = new StringBuilder("The parameter ").append(this.parameter).append(
+                        " must be greater than 0.");
+                final ApiParameterError error = ApiParameterError.parameterError(validationErrorCode.toString(),
+                        defaultEnglishMessage.toString(), this.parameter, number, 0);
+                this.dataValidationErrors.add(error);
+            }
+        }
+        return this;
+    }
 
     /*
      * should be used with .notNull() before it
@@ -548,6 +566,25 @@ public class DataValidatorBuilder {
                         .append(" must be greater than ").append(number);
                 final ApiParameterError error = ApiParameterError.parameterError(validationErrorCode.toString(),
                         defaultEnglishMessage.toString(), this.parameter, longValue, number);
+                this.dataValidationErrors.add(error);
+            }
+        }
+        return this;
+    }
+    
+    
+    public DataValidatorBuilder doubleGreaterThanNumber(Double number) {
+        if (this.value == null && this.ignoreNullValue) { return this; }
+
+        if (this.value != null) {
+            final Double doubleValue = Double.valueOf(this.value.toString());
+            if (doubleValue < number + 1) {
+                final StringBuilder validationErrorCode = new StringBuilder("validation.msg.").append(this.resource).append(".")
+                        .append(this.parameter).append(".not.greater.than.specified.number");
+                final StringBuilder defaultEnglishMessage = new StringBuilder("The parameter ").append(this.parameter)
+                        .append(" must be greater than ").append(number);
+                final ApiParameterError error = ApiParameterError.parameterError(validationErrorCode.toString(),
+                        defaultEnglishMessage.toString(), this.parameter, doubleValue, number);
                 this.dataValidationErrors.add(error);
             }
         }

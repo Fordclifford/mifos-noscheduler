@@ -84,7 +84,7 @@ public class SharedAccountImportHandler implements ImportHandler {
 
         String externalId = ImportHandlerUtils.readAsString(SharedAccountsConstants.EXTERNAL_ID_COL, row);
 
-        Integer totNoOfShares=ImportHandlerUtils.readAsInt(SharedAccountsConstants.TOTAL_NO_SHARES_COL,row);
+        Double totNoOfShares=ImportHandlerUtils.readAsDouble(SharedAccountsConstants.TOTAL_NO_SHARES_COL,row);
 
         Long defaultSavingsAccountId=ImportHandlerUtils.readAsLong(SharedAccountsConstants.DEFAULT_SAVINGS_AC_COL,row);
 

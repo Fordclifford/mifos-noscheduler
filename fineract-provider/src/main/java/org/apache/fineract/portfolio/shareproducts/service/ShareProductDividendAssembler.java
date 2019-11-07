@@ -97,7 +97,7 @@ public class ShareProductDividendAssembler {
         for (ShareAccountData accountData : shareAccountDatas) {
             long numberOfShareDaysPerAccount = 0;
             Collection<ShareAccountTransactionData> purchasedShares = accountData.getPurchasedShares();
-            long numberOfShares = 0;
+            double numberOfShares = 0.0;
             LocalDate lastDividendAppliedDate = null;
             for (ShareAccountTransactionData purchasedSharesData : purchasedShares) {
                 final PurchasedSharesStatusType status = PurchasedSharesStatusType.fromInt(purchasedSharesData.getStatus().getId()

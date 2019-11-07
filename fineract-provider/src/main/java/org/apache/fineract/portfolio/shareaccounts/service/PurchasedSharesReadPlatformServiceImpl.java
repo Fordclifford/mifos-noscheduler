@@ -69,7 +69,7 @@ public class PurchasedSharesReadPlatformServiceImpl implements
 			final Long id = rs.getLong("id") ;
 			final Long accountId = rs.getLong("account_id") ;
 			final LocalDate purchasedDate = new LocalDate(rs.getDate("transaction_date")) ;
-			final Long numberOfShares = JdbcSupport.getLong(rs, "total_shares") ;
+			final Double numberOfShares = JdbcSupport.getDouble(rs, "total_shares") ;
 			final BigDecimal purchasedPrice = rs.getBigDecimal("unit_price") ;
 			final Integer status = rs.getInt("status_enum") ;
 			final EnumOptionData statusEnum = SharesEnumerations.purchasedSharesEnum(status) ;

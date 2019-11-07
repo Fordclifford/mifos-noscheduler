@@ -176,7 +176,7 @@ public class ShareProductReadPlatformServiceImpl implements ProductReadPlatformS
             final Long id = rs.getLong("id");
             final String name = rs.getString("name");
             final String shortName = rs.getString("short_name");
-            final Long totalShares = rs.getLong("total_shares");
+            final Double totalShares = rs.getDouble("total_shares");
             return ShareProductData.generic(id, name, shortName, totalShares);
         }
 
@@ -247,13 +247,13 @@ public class ShareProductReadPlatformServiceImpl implements ProductReadPlatformS
             final CurrencyData currency = new CurrencyData(currencyCode, currencyName, currencyDigits, inMultiplesOf,
                     currencyDisplaySymbol, currencyNameCode);
 
-            final Long totalShares = rs.getLong("total_shares");
-            final Long issuedShares = JdbcSupport.getLongDefaultToNullIfZero(rs, "issued_shares");
+            final Double totalShares = rs.getDouble("total_shares");
+            final Double issuedShares = JdbcSupport.getDoubleDefaultToNullIfZero(rs, "issued_shares");
             final BigDecimal unitPrice = rs.getBigDecimal("unit_price");
             final BigDecimal capitalAmount = rs.getBigDecimal("capital_amount");
-            final Long minimumClientShares = JdbcSupport.getLong(rs, "minimum_client_shares");
-            final Long nominalClientShares = JdbcSupport.getLong(rs, "nominal_client_shares");
-            final Long maximumClientShares = JdbcSupport.getLong(rs, "maximum_client_shares");
+            final Double minimumClientShares = JdbcSupport.getDouble(rs, "minimum_client_shares");
+            final Double nominalClientShares = JdbcSupport.getDouble(rs, "nominal_client_shares");
+            final Double maximumClientShares = JdbcSupport.getDouble(rs, "maximum_client_shares");
             final Boolean allowDividendsForInactiveClients = rs.getBoolean("allow_dividends_inactive_clients");
             // final Long createdById = rs.getLong("createdby_id") ;
             // final Date createdDate = rs.getDate("created_date") ;

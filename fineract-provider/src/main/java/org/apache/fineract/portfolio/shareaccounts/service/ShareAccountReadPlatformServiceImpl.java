@@ -455,7 +455,7 @@ public class ShareAccountReadPlatformServiceImpl implements ShareAccountReadPlat
             final Long id = rs.getLong("purchasedId");
             final Long accountId = rs.getLong("accountId");
             final LocalDate transactionDate = new LocalDate(rs.getDate("transactionDate"));
-            final Long numberOfShares = JdbcSupport.getLong(rs, "purchasedShares");
+            final Double numberOfShares = JdbcSupport.getDouble(rs, "purchasedShares");
             final BigDecimal purchasedPrice = rs.getBigDecimal("unitPrice");
             final Integer status = rs.getInt("purchaseStatus");
             final EnumOptionData statusEnum = SharesEnumerations.purchasedSharesEnum(status);

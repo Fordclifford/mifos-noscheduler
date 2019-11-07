@@ -49,7 +49,7 @@ public class ShareAccountData implements AccountData {
 
     private String clientName;
 
-    private Long defaultShares ;
+    private Double defaultShares ;
     
     private Long productId;
 
@@ -84,7 +84,7 @@ public class ShareAccountData implements AccountData {
     private Collection<ShareAccountDividendData> dividends ;
 
     //import fields
-    private Integer requestedShares;
+    private Double requestedShares;
     private LocalDate submittedDate;
     private Integer minimumActivePeriodFrequencyType;
     private Integer lockinPeriodFrequency;
@@ -94,7 +94,7 @@ public class ShareAccountData implements AccountData {
     private transient Integer rowIndex;
     private  String dateFormat;
 
-    public static ShareAccountData importInstance(Long clientId,Long productId,Integer requestedShares,String externalId,
+    public static ShareAccountData importInstance(Long clientId,Long productId,Double requestedShares,String externalId,
             LocalDate submittedOnDate , Integer minimumActivePeriodDays,Integer minimumActivePeriodFrequencyType,
             Integer lockinPeriodFrequency,Integer lockinPeriodFrequencyType,LocalDate applicationDate,
             Boolean allowDividendCalculationForInactiveClients, Collection<ShareAccountChargeData> charges,
@@ -103,7 +103,7 @@ public class ShareAccountData implements AccountData {
                 minimumActivePeriodFrequencyType,lockinPeriodFrequency,lockinPeriodFrequencyType,applicationDate,allowDividendCalculationForInactiveClients,charges,
                 defaultSavingsAccountId,rowIndex,locale,dateFormat);
     }
-    private ShareAccountData(Long clientId,Long productId,Integer requestedShares,String externalId,
+    private ShareAccountData(Long clientId,Long productId,Double requestedShares,String externalId,
             LocalDate submittedDate , Integer minimumActivePeriod,Integer minimumActivePeriodFrequencyType,
             Integer lockinPeriodFrequency,Integer lockinPeriodFrequencyType,LocalDate applicationDate,
             Boolean allowDividendCalculationForInactiveClients, Collection<ShareAccountChargeData> charges,
@@ -199,7 +199,7 @@ public class ShareAccountData implements AccountData {
             final Collection<ShareAccountChargeData> charges, final BigDecimal currentMarketPrice,
             final Collection<EnumOptionData> minimumActivePeriodFrequencyTypeOptions,
             final Collection<EnumOptionData> lockinPeriodFrequencyTypeOptions, final Collection<SavingsAccountData> clientSavingsAccounts,
-            final Long defaultShares) {
+            final Double defaultShares) {
         this.clientId = clientId;
         this.clientName = clientName;
         this.charges = charges;

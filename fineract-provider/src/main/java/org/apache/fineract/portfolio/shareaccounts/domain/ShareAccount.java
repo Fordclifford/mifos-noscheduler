@@ -117,10 +117,10 @@ public class ShareAccount extends AbstractPersistableCustom<Long> {
     private String accountNumber;
 
     @Column(name = "total_approved_shares")
-    private Long totalSharesApproved;
+    private Double totalSharesApproved;
 
     @Column(name = "total_pending_shares")
-    private Long totalSharesPending;
+    private Double totalSharesPending;
 
     @Embedded
     private MonetaryCurrency currency;
@@ -160,7 +160,7 @@ public class ShareAccount extends AbstractPersistableCustom<Long> {
     }
 
     public ShareAccount(final Client client, final ShareProduct shareProduct, final String externalId, final MonetaryCurrency currency,
-            final SavingsAccount savingsAccount, final String accountNo, final Long totalSharesApproved, final Long totalSharesPending,
+            final SavingsAccount savingsAccount, final String accountNo, final Double totalSharesApproved, final Double totalSharesPending,
             final Set<ShareAccountTransaction> purchasedShares, final Boolean allowDividendCalculationForInactiveClients,
             final Integer lockinPeriodFrequency, final PeriodFrequencyType lockPeriodType, final Integer minimumActivePeriodFrequency,
             final PeriodFrequencyType minimumActivePeriodType, Set<ShareAccountCharge> charges, AppUser submittedBy,
@@ -422,7 +422,7 @@ public class ShareAccount extends AbstractPersistableCustom<Long> {
         this.closedDate = null;
         this.closedBy = null;
         this.totalSharesApproved = null;
-        Long tempTotalShares = new Long(0);
+        Double tempTotalShares = new Double(0);
         for (ShareAccountTransaction transaction : this.shareAccountTransactions) {
             if(transaction.isPurchasTransaction()) {
                 transaction.undoApprove();
@@ -490,7 +490,7 @@ public class ShareAccount extends AbstractPersistableCustom<Long> {
         return this.currency;
     }
 
-    public void updateApprovedShares(Long shares) {
+    public void updateApprovedShares(Double shares) {
         if (this.totalSharesApproved == null) {
             this.totalSharesApproved = shares;
         } else {
@@ -499,11 +499,11 @@ public class ShareAccount extends AbstractPersistableCustom<Long> {
         }
     }
 
-    public Long getTotalApprovedShares() {
+    public Double getTotalApprovedShares() {
         return this.totalSharesApproved ;
     }
     
-    public void removePendingShares(Long totalShares) {
+    public void removePendingShares(Double totalShares) {
         this.totalSharesPending -= totalShares;
     }
 
@@ -511,7 +511,7 @@ public class ShareAccount extends AbstractPersistableCustom<Long> {
         return this.client.getOffice().getId();
     }
 
-    public void setTotalPendingShares(final Long shares) {
+    public void setTotalPendingShares(final Double shares) {
         this.totalSharesPending = shares ;
     }
     
@@ -542,8 +542,8 @@ public class ShareAccount extends AbstractPersistableCustom<Long> {
         for(ShareAccountTransaction transaction: this.shareAccountTransactions) {
             transaction.setActive(false);
         }
-        this.totalSharesApproved = new Long(0) ;
-        this.totalSharesPending = new Long(0) ;
+        this.totalSharesApproved = new Double(0) ;
+        this.totalSharesPending = new Double(0) ;
     }
 
     public void removeCharges() {

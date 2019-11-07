@@ -32,7 +32,7 @@ public class ShareAccountTransactionData {
 
     private final LocalDate purchasedDate;
 
-    private final Long numberOfShares;
+    private final Double numberOfShares;
 
     private final BigDecimal purchasedPrice;
 
@@ -46,7 +46,7 @@ public class ShareAccountTransactionData {
     
     private final BigDecimal amountPaid ;
     
-    public ShareAccountTransactionData(final Long id, final Long accountId, final LocalDate purchasedDate, final Long numberOfShares,
+    public ShareAccountTransactionData(final Long id, final Long accountId, final LocalDate purchasedDate, final Double numberOfShares,
             final BigDecimal purchasedPrice, final EnumOptionData status, final EnumOptionData type, final BigDecimal amount, final BigDecimal chargeAmount,
             final BigDecimal amountPaid) {
         this.id = id;
@@ -65,7 +65,7 @@ public class ShareAccountTransactionData {
         return this.purchasedDate;
     }
 
-    public Long getNumberOfShares() {
+    public Double getNumberOfShares() {
         return this.numberOfShares;
     }
 

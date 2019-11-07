@@ -272,7 +272,7 @@ public class ShareAccountWritePlatformServiceJpaRepositoryImpl implements ShareA
             }
             Set<ShareAccountTransaction> transactions = account.getShareAccountTransactions();
             Set<ShareAccountTransaction> journalTransactions = new HashSet<>();
-            Long totalSubsribedShares = new Long(0) ;
+            Double totalSubsribedShares = new Double(0) ;
             
             for (ShareAccountTransaction transaction : transactions) {
                 if (transaction.isActive() && transaction.isPurchasTransaction()) {
@@ -403,7 +403,7 @@ public class ShareAccountWritePlatformServiceJpaRepositoryImpl implements ShareA
             if (!changes.isEmpty()) {
                 this.shareAccountRepository.save(account);
                 ArrayList<Long> transactionIds = (ArrayList<Long>) changes.get(ShareAccountApiConstants.requestedshares_paramname);
-                Long totalSubscribedShares = new Long(0) ;
+                Double totalSubscribedShares = new Double(0) ;
                 if (transactionIds != null) {
                     Set<ShareAccountTransaction> transactions = new HashSet<>();
                     for (Long id : transactionIds) {
@@ -470,7 +470,7 @@ public class ShareAccountWritePlatformServiceJpaRepositoryImpl implements ShareA
                         .get(ShareAccountApiConstants.requestedshares_paramname);
              // after saving, entity will have different object. So need to retrieve the entity object
                 transaction = account.getShareAccountTransaction(transaction); 
-                Long redeemShares = transaction.getTotalShares() ;
+                Double redeemShares = transaction.getTotalShares() ;
                 ShareProduct shareProduct = account.getShareProduct() ;
                 //remove the redeem shares from total subscribed shares 
                 shareProduct.removeSubscribedShares(redeemShares); 

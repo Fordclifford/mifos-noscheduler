@@ -76,13 +76,13 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
     private MonetaryCurrency currency;
 
     @Column(name = "total_shares", nullable = false)
-    private Long totalShares;
+    private Double totalShares;
 
     @Column(name = "issued_shares", nullable = false)
-    private Long totalSharesIssued;
+    private Double totalSharesIssued;
 
     @Column(name = "totalsubscribed_shares", nullable = true)
-    private Long totalSubscribedShares;
+    private Double totalSubscribedShares;
     
     @Column(name = "unit_price", nullable = false)
     private BigDecimal unitPrice;
@@ -91,13 +91,13 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
     private BigDecimal shareCapital;
 
     @Column(name = "minimum_client_shares")
-    private Long minimumShares;
+    private Double minimumShares;
 
     @Column(name = "nominal_client_shares", nullable = false)
-    private Long nominalShares;
+    private Double nominalShares;
 
     @Column(name = "maximum_client_shares")
-    private Long maximumShares;
+    private Double maximumShares;
 
     @OrderBy(value = "fromDate,id")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch=FetchType.EAGER)
@@ -132,8 +132,8 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
     }
 
     public ShareProduct(final String name, final String shortName, final String description, final String externalId,
-            final MonetaryCurrency currency, final Long totalShares, final Long totalSharesIssued, final BigDecimal unitPrice,
-            final BigDecimal shareCapital, final Long minimumShares, final Long nominalShares, final Long maximumShares,
+            final MonetaryCurrency currency, final Double totalShares, final Double totalSharesIssued, final BigDecimal unitPrice,
+            final BigDecimal shareCapital, final Double minimumShares, final Double nominalShares, final Double maximumShares,
             Set<ShareProductMarketPrice> marketPrice, Set<Charge> charges, final Boolean allowDividendCalculationForInactiveClients,
             final Integer lockinPeriod, final PeriodFrequencyType lockPeriodType, final Integer minimumActivePeriod,
             final PeriodFrequencyType minimumActivePeriodForDividendsType, AppUser createdBy, DateTime createdDate, AppUser lastModifiedBy,
@@ -209,7 +209,7 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
         return returnValue;
     }
 
-    public boolean setTotalShares(Long totalShares) {
+    public boolean setTotalShares(Double totalShares) {
         boolean returnValue = false;
         if (!this.totalShares.equals(totalShares)) {
             this.totalShares = totalShares;
@@ -219,11 +219,11 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
 
     }
 
-    public Long getTotalShares() {
+    public Double getTotalShares() {
         return this.totalShares;
     }
 
-    public boolean setTotalIssuedShares(Long totalSharesIssued) {
+    public boolean setTotalIssuedShares(Double totalSharesIssued) {
         boolean returnValue = false;
         if (this.totalSharesIssued == null || !this.totalSharesIssued.equals(totalSharesIssued)) {
             this.totalSharesIssued = totalSharesIssued;
@@ -254,7 +254,7 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
         return returnValue;
     }
 
-    public boolean setMinimumShares(final Long minimumShares) {
+    public boolean setMinimumShares(final Double minimumShares) {
         boolean returnValue = false;
         if (this.minimumShares == null || !this.minimumShares.equals(minimumShares)) {
             this.minimumShares = minimumShares;
@@ -263,7 +263,7 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
         return returnValue;
     }
 
-    public boolean setNominalShares(final Long nominalShares) {
+    public boolean setNominalShares(final Double nominalShares) {
         boolean returnValue = false;
         if (!this.nominalShares.equals(nominalShares)) {
             this.nominalShares = nominalShares;
@@ -272,7 +272,7 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
         return returnValue;
     }
 
-    public boolean setMaximumShares(final Long maximumShares) {
+    public boolean setMaximumShares(final Double maximumShares) {
         boolean returnValue = false;
         if (this.maximumShares == null || !this.maximumShares.equals(maximumShares)) {
             this.maximumShares = maximumShares;
@@ -375,7 +375,7 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
         return returnValue;
     }
 
-    public Long getSharesIssued() {
+    public Double getSharesIssued() {
         return this.totalSharesIssued;
     }
 
@@ -410,30 +410,30 @@ public class ShareProduct extends AbstractAuditableCustom<AppUser, Long> {
         return marketValue;
     }
     
-    public void addSubscribedShares(final Long subscribedShares) {
+    public void addSubscribedShares(final Double subscribedShares) {
         if(this.totalSubscribedShares == null) {
-            this.totalSubscribedShares = new Long(0) ;
+            this.totalSubscribedShares = new Double(0) ;
         }
         this.totalSubscribedShares += subscribedShares ;
     }
     
-    public void removeSubscribedShares(final Long subscribedShares) {
-        this.totalSubscribedShares -= subscribedShares ;
+    public void removeSubscribedShares(final Double redeemShares) {
+        this.totalSubscribedShares -= redeemShares ;
     }
     
-    public Long getSubscribedShares() {
+    public Double getSubscribedShares() {
         return this.totalSubscribedShares ;
     }
  
-    public Long getMinimumClientShares() {
+    public Double getMinimumClientShares() {
         return this.minimumShares ;
     }
     
-    public Long getMaximumClientShares() {
+    public Double getMaximumClientShares() {
         return this.maximumShares ;
     }
     
-    public Long getDefaultClientShares() {
+    public Double getDefaultClientShares() {
         return this.nominalShares ;
     }
 }

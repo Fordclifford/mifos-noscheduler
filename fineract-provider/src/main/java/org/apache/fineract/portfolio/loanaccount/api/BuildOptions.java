@@ -14,7 +14,7 @@ public class BuildOptions
   public String checkReceipt(String receipt)
     throws MalformedURLException, IOException
   {
-    String postUrl = "http://localhost/stkpush/api/receipt.php";
+    String postUrl = "http://localhost:443/stkpush/api/receipt.php";
     
     URL url = new URL(postUrl);
     HttpURLConnection conn = (HttpURLConnection)url.openConnection();

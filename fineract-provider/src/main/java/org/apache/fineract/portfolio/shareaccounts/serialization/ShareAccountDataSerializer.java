@@ -149,9 +149,9 @@ public class ShareAccountDataSerializer {
         Long savingsAccountId = this.fromApiJsonHelper.extractLongNamed(ShareAccountApiConstants.savingsaccountid_paramname, element);
         baseDataValidator.reset().parameter(ShareAccountApiConstants.savingsaccountid_paramname).value(savingsAccountId).notNull()
                 .longGreaterThanZero();
-        final Long requestedShares = this.fromApiJsonHelper.extractLongNamed(ShareAccountApiConstants.requestedshares_paramname, element);
+        final Double requestedShares = this.fromApiJsonHelper.extractDoubleNamed(ShareAccountApiConstants.requestedshares_paramname, element);
         baseDataValidator.reset().parameter(ShareAccountApiConstants.requestedshares_paramname).value(requestedShares).notNull()
-                .longGreaterThanZero();
+                .doubleGreaterThanZero();
         
         if(shareProduct.getMinimumClientShares() != null && requestedShares < shareProduct.getMinimumClientShares()) {
             baseDataValidator.reset().parameter(ShareAccountApiConstants.requestedshares_paramname).value(requestedShares)
@@ -204,8 +204,8 @@ public class ShareAccountDataSerializer {
         AppUser modifiedBy = null;
         Date modifiedDate = null;
         String accountNo = null;
-        Long approvedShares = null;
-        Long pendingShares = requestedShares;
+        Double approvedShares = null;
+        Double pendingShares = requestedShares;
         BigDecimal unitPrice = shareProduct.deriveMarketPrice(applicationDate.toDate());
         ShareAccountTransaction transaction = new ShareAccountTransaction(applicationDate.toDate(), requestedShares, unitPrice);
         Set<ShareAccountTransaction> sharesPurchased = new HashSet<>();
@@ -345,7 +345,7 @@ public class ShareAccountDataSerializer {
         }
 
         if (this.fromApiJsonHelper.parameterExists(ShareAccountApiConstants.requestedshares_paramname, element)) {
-            Long requestedShares = this.fromApiJsonHelper.extractLongNamed(ShareAccountApiConstants.requestedshares_paramname, element);
+            Double requestedShares = this.fromApiJsonHelper.extractDoubleNamed(ShareAccountApiConstants.requestedshares_paramname, element);
             baseDataValidator.reset().parameter(ShareAccountApiConstants.requestedshares_paramname).value(requestedShares).notNull();
             Date applicationDate = null ;
             purchaseTransactionsList.clear() ;
@@ -480,14 +480,14 @@ public class ShareAccountDataSerializer {
     }
 
     private void validateTotalSubsribedShares(final ShareAccount account, final ShareAccountTransaction transaction, final  DataValidatorBuilder baseDataValidator) {
-        Long totalSubsribedShares = account.getShareProduct().getSubscribedShares() ;
-        Long requested = new Long(0) ;
+        Double totalSubsribedShares = account.getShareProduct().getSubscribedShares() ;
+        Double requested = new Double(0.0) ;
         if(transaction.isActive() && transaction.isPendingForApprovalTransaction()) {
            requested +=transaction.getTotalShares() ;
         }
-        Long totalSharesIssuable = account.getShareProduct().getSharesIssued() ;
+        Double totalSharesIssuable = account.getShareProduct().getSharesIssued() ;
         if(totalSharesIssuable == null) totalSharesIssuable = account.getShareProduct().getTotalShares() ;
-        if(totalSubsribedShares == null) totalSubsribedShares = new Long(0) ;
+        if(totalSubsribedShares == null) totalSubsribedShares = new Double(0) ;
         if((totalSubsribedShares+requested) > totalSharesIssuable) {
             baseDataValidator.reset().parameter(ShareAccountApiConstants.requestedshares_paramname).value(requested)
             .failWithCodeNoParameterAddedToErrorCode("shares.requested.can.not.be.approved.exceeding.totalshares.issuable");
@@ -663,11 +663,11 @@ public class ShareAccountDataSerializer {
         }
         LocalDate requestedDate = this.fromApiJsonHelper.extractLocalDateNamed(ShareAccountApiConstants.requesteddate_paramname, element);
         baseDataValidator.reset().parameter(ShareAccountApiConstants.requesteddate_paramname).value(requestedDate).notNull();
-        final Long sharesRequested = this.fromApiJsonHelper.extractLongNamed(ShareAccountApiConstants.requestedshares_paramname, element);
+        final Double sharesRequested = this.fromApiJsonHelper.extractDoubleNamed(ShareAccountApiConstants.requestedshares_paramname, element);
         baseDataValidator.reset().parameter(ShareAccountApiConstants.requestedshares_paramname).value(sharesRequested).notNull();
         ShareProduct shareProduct = account.getShareProduct();
         if (sharesRequested != null) {
-            Long totalSharesAfterapproval = account.getTotalApprovedShares() + sharesRequested;
+            Double totalSharesAfterapproval = account.getTotalApprovedShares() + sharesRequested;
             if(shareProduct.getMaximumClientShares() != null && totalSharesAfterapproval > shareProduct.getMaximumClientShares()) {
                 baseDataValidator.reset().parameter(ShareAccountApiConstants.requestedshares_paramname).value(sharesRequested)
                 .failWithCode("exceeding.maximum.limit.defined.in.the.shareproduct", "Existing and requested shares count is more than product definition");
@@ -725,21 +725,21 @@ public class ShareAccountDataSerializer {
         final ArrayList<Long> purchasedShares = new ArrayList<>();
         if (this.fromApiJsonHelper.parameterExists(ShareAccountApiConstants.requestedshares_paramname, element)) {
             JsonArray array = this.fromApiJsonHelper.extractJsonArrayNamed(ShareAccountApiConstants.requestedshares_paramname, element);
-            long totalShares = 0;
+            Double totalShares = 0.0;
             for (JsonElement arrayElement : array) {
                 final Long purchasedSharesId = this.fromApiJsonHelper.extractLongNamed(ShareAccountApiConstants.id_paramname, arrayElement);
                 baseDataValidator.reset().parameter(ShareAccountApiConstants.requestedshares_paramname).value(purchasedSharesId).notBlank();
                 ShareAccountTransaction transaction = account.retrievePurchasedShares(purchasedSharesId);
                 if (transaction != null) {
                     validateTotalSubsribedShares(account, transaction, baseDataValidator) ;
-                    totalShares += transaction.getTotalShares().longValue();
+                    totalShares += transaction.getTotalShares().doubleValue();
                     transaction.approve();
                     updateTotalChargeDerivedForAdditonalShares(account, transaction);
                 }
                 purchasedShares.add(purchasedSharesId);
             }
             if (totalShares > 0) {
-                account.updateApprovedShares(new Long(totalShares));
+                account.updateApprovedShares(new Double(totalShares));
             }
         }
         if (!dataValidationErrors.isEmpty()) { throw new PlatformApiDataValidationException(dataValidationErrors); }
@@ -772,7 +772,7 @@ public class ShareAccountDataSerializer {
         JsonElement element = jsonCommand.parsedJson();
         final ArrayList<Long> purchasedShares = new ArrayList<>();
         if (this.fromApiJsonHelper.parameterExists(ShareAccountApiConstants.requestedshares_paramname, element)) {
-            long totalShares = 0;
+            Double totalShares = 0.0;
             JsonArray array = this.fromApiJsonHelper.extractJsonArrayNamed(ShareAccountApiConstants.requestedshares_paramname, element);
             for (JsonElement arrayElement : array) {
                 final Long purchasedSharesId = this.fromApiJsonHelper.extractLongNamed(ShareAccountApiConstants.id_paramname, arrayElement);
@@ -780,12 +780,12 @@ public class ShareAccountDataSerializer {
                 if (shares != null) {
                     shares.reject();
                     updateTotalChargeDerivedForAdditonalSharesReject(account, shares);
-                    totalShares += shares.getTotalShares().longValue();
+                    totalShares += shares.getTotalShares().doubleValue();
                 }
                 purchasedShares.add(purchasedSharesId);
             }
             if (totalShares > 0) {
-                account.removePendingShares(new Long(totalShares));
+                account.removePendingShares(new Double(totalShares));
             }
         }
         actualChanges.put(ShareAccountApiConstants.requestedshares_paramname, purchasedShares);
@@ -819,7 +819,7 @@ public class ShareAccountDataSerializer {
         JsonElement element = jsonCommand.parsedJson();
         LocalDate requestedDate = this.fromApiJsonHelper.extractLocalDateNamed(ShareAccountApiConstants.requesteddate_paramname, element);
         baseDataValidator.reset().parameter(ShareAccountApiConstants.requesteddate_paramname).value(requestedDate).notNull();
-        final Long sharesRequested = this.fromApiJsonHelper.extractLongNamed(ShareAccountApiConstants.requestedshares_paramname, element);
+        final Double sharesRequested = this.fromApiJsonHelper.extractDoubleNamed(ShareAccountApiConstants.requestedshares_paramname, element);
         baseDataValidator.reset().parameter(ShareAccountApiConstants.requestedshares_paramname).value(sharesRequested).notNull()
                 .longGreaterThanZero();
         boolean isTransactionBeforeExistingTransactions = false ;
@@ -864,8 +864,8 @@ public class ShareAccountDataSerializer {
         final Integer lockinPeriod = account.getLockinPeriodFrequency();
         final PeriodFrequencyType periodType = account.getLockinPeriodFrequencyType();
         if (lockinPeriod == null && periodType == null) { return; }
-        Long totalSharesCanBeRedeemed = new Long(0);
-        Long totalSharesPurchasedBeforeRedeem = new Long(0) ;
+        Double totalSharesCanBeRedeemed = new Double(0);
+        Double totalSharesPurchasedBeforeRedeem = new Double(0) ;
         boolean isPurchaseTransactionExist = false ;
         
         Set<ShareAccountTransaction> transactions = account.getShareAccountTransactions();

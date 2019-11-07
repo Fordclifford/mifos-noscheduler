@@ -63,6 +63,9 @@ public class JdbcSupport {
     public static Long getLong(final ResultSet rs, final String columnName) throws SQLException {
         return (Long) JdbcUtils.getResultSetValue(rs, rs.findColumn(columnName), Long.class);
     }
+    public static Double getDouble(final ResultSet rs, final String columnName) throws SQLException {
+        return (Double) JdbcUtils.getResultSetValue(rs, rs.findColumn(columnName), Long.class);
+    }
 
     public static Integer getInteger(final ResultSet rs, final String columnName) throws SQLException {
         return (Integer) JdbcUtils.getResultSetValue(rs, rs.findColumn(columnName), Integer.class);
@@ -75,6 +78,12 @@ public class JdbcSupport {
     
     public static Long getLongDefaultToNullIfZero(final ResultSet rs, final String columnName) throws SQLException {
         final Long value = (Long) JdbcUtils.getResultSetValue(rs, rs.findColumn(columnName), Long.class);
+        return defaultToNullIfZero(value);
+    }
+    
+    
+    public static Double getDoubleDefaultToNullIfZero(final ResultSet rs, final String columnName) throws SQLException {
+        final Double value = (Double) JdbcUtils.getResultSetValue(rs, rs.findColumn(columnName), Double.class);
         return defaultToNullIfZero(value);
     }
 
@@ -94,6 +103,15 @@ public class JdbcSupport {
         return result;
     }
 
+    private static Double defaultToNullIfZero(final Double value) {
+    	Double result = value;
+        if (result != null && Double.valueOf(0).equals(value)) {
+            result = null;
+        }
+        return result;
+    }
+    
+    
     public static BigDecimal getBigDecimalDefaultToZeroIfNull(final ResultSet rs, final String columnName) throws SQLException {
         final BigDecimal value = rs.getBigDecimal(columnName);
         return defaultToZeroIfNull(value);
